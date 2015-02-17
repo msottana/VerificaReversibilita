@@ -7,7 +7,7 @@ package verificareversibilita;
 
 /**
  *
- * @author Matteo
+ * @author Matteo & Giulia
  */
 public class VerificaReversibilita {
     
