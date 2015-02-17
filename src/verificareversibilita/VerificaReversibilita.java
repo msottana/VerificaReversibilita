@@ -16,8 +16,6 @@ public class VerificaReversibilita {
     public static int GREY = 2;
     public static int NIL = -1;
     
-    
-    
     /* v rappresenta la sequenza di nodi, i nodi sono etichettati con numeri compresi in [0,v[
      * p è la matrice di archi
      */
