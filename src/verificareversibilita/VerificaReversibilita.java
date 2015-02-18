@@ -124,7 +124,7 @@ public class VerificaReversibilita {
         // TODO code application logic here
         double[][] p;
         BufferedReader in = new BufferedReader(new FileReader("cateneReversibili.txt"));
-        BufferedWriter out = new BufferedWriter(new FileWriter("output.txt"));
+        BufferedWriter out = new BufferedWriter(new FileWriter("outputReversibili.txt"));
         int numeroCatene = Integer.valueOf(in.readLine());//leggo il primo valore che rappresenta il numero di catene
         int n = Integer.valueOf(in.readLine());//leggo il secondo valore che rappresenta il numero di nodi (tutte le cstene hanno lo stesso numero di nodi)
         boolean risultato;
