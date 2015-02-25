@@ -7,7 +7,6 @@ package verificareversibilita;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,8 +22,9 @@ public class VerificaReversibilita {
     public static int GREY = 2;
     public static int NIL = -1;
 
-    /* v rappresenta la sequenza di nodi, i nodi sono etichettati con numeri compresi in [0,v[
-     * p è la matrice di archi
+    /*
+     * the variable v represents the sequence of nodes, each node is tagged with
+     * an integer value from the range [0, v)
      */
     public static boolean reversible(double[][] p) {
         int v = p.length;
@@ -43,7 +43,7 @@ public class VerificaReversibilita {
 
     private static boolean dfsReversible(double[][] p, int u, int[] parent, int[] color, double[] prob, double[] invprob) {
         boolean bool = true;
-        int[] adj = adiacenti(u, p);
+        int[] adj = adjacent(u, p);
         for (int i = 0; bool && i < adj.length; i++) {
             int v = adj[i];
             if (p[v][u] == 0.0) {
@@ -80,7 +80,7 @@ public class VerificaReversibilita {
 
     private static boolean dfsNaiveReversible(double[][] p, int u, double[] x, int[] color) {
         boolean bool = true;
-        int[] adj = adiacenti(u, p);
+        int[] adj = adjacent(u, p);
         for (int i = 0; bool && i < adj.length; i++) {
             int v = adj[i];
             if (p[v][u] == 0.0) {
@@ -100,7 +100,7 @@ public class VerificaReversibilita {
         return bool;
     }
 
-    private static int[] adiacenti(int u, double[][] p) {
+    private static int[] adjacent(int u, double[][] p) {
         int n = 0;
         int[] vet = new int[p.length];
         int[] ret;
@@ -119,33 +119,34 @@ public class VerificaReversibilita {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
-        // TODO code application logic here
         double[][] p;
-        BufferedReader in = new BufferedReader(new FileReader("cateneReversibili.txt"));
-        BufferedWriter out = new BufferedWriter(new FileWriter("outputReversibili.txt"));
-        int numeroCatene = Integer.valueOf(in.readLine());//leggo il primo valore che rappresenta il numero di catene
-        int n = Integer.valueOf(in.readLine());//leggo il secondo valore che rappresenta il numero di nodi (tutte le cstene hanno lo stesso numero di nodi)
-        boolean risultato;
-        for (int i = 0; i < numeroCatene; i++) {
-            p = leggiP(in, n);
-            risultato = reversible(p);
-            System.out.println(risultato);
-            out.write(risultato + "");
+        BufferedReader in = new BufferedReader(new FileReader("inputReversible.txt"));
+        BufferedWriter out = new BufferedWriter(new FileWriter("outputReversible.txt"));
+        int numberOfChains = Integer.valueOf(in.readLine());//read the number of chains in the files
+        int n = Integer.valueOf(in.readLine());//read the number of vertices in the chain
+        //all chains have the same number of vertices
+        boolean result;
+        for (int i = 0; i < numberOfChains; i++) {
+            p = readProbabilityMatrix(in, n);
+            result = reversible(p);
+            System.out.println(result);
+            out.write(result + "");
             out.newLine();
         }
         out.close();
         in.close();
     }
     
-    private static double[][] leggiP(BufferedReader in, int n) throws IOException {
+    private static double[][] readProbabilityMatrix(BufferedReader in, int n) throws IOException {
         double[][] ret = new double[n][n];
-        String[] riga;
+        String[] row;
         for (int i = 0; i < n; i++) {
-            riga = in.readLine().split(",");
+            row = in.readLine().split(",");
             for (int j = 0; j < n; j++) {
-                ret[i][j] = Double.valueOf(riga[j]);
+                ret[i][j] = Double.valueOf(row[j]);
             }
         }
         return ret;
