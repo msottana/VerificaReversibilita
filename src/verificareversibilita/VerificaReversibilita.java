@@ -86,7 +86,8 @@ public class VerificaReversibilita {
             if (p[v][u] == 0.0) {
                 bool = false;
             } else {
-                if (color[v] != WHITE && (int)(x[u]*p[u][v]*1000000000) != (int)(x[v]*p[v][u]*1000000000)) {
+                //We use an aproximation to reduce the precision of the calculations
+                if (color[v] != WHITE && (x[u]*p[u][v]) - (x[v]*p[v][u]) > 0.0000000001) {
                     bool = false;
                 }
                 if (color[v] == WHITE) {
@@ -125,6 +126,7 @@ public class VerificaReversibilita {
         double[][] p;
         BufferedReader in = new BufferedReader(new FileReader("inputReversible.txt"));
         BufferedWriter out = new BufferedWriter(new FileWriter("outputReversible.txt"));
+        BufferedWriter outNaive = new BufferedWriter(new FileWriter("outputNaiveReversible.txt"));
         int numberOfChains = Integer.valueOf(in.readLine());//read the number of chains in the files
         int n = Integer.valueOf(in.readLine());//read the number of vertices in the chain
         //all chains have the same number of vertices
@@ -132,11 +134,15 @@ public class VerificaReversibilita {
         for (int i = 0; i < numberOfChains; i++) {
             p = readProbabilityMatrix(in, n);
             result = reversible(p);
-            System.out.println(result);
+            System.out.print("normal: " + result + " / naive: ");
             out.write(result + "");
             out.newLine();
+            result = naiveReversible(p);
+            System.out.println(result);
+            outNaive.write(result + "");
         }
         out.close();
+        outNaive.close();
         in.close();
     }
     
